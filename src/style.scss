@@ -12,9 +12,11 @@
 }
 
 .container {
-  // border: 1px solid black;
+  position: relative;
   height: 80vh;
   width: 80%;
+  background-color: green;
+
   .grid {
     height: 100%;
     display: flex;
@@ -23,18 +25,37 @@
     ul {
       height: 100%;
       text-decoration: none;
-      // transform: scale(1.1);
-      zoom: 2.2;
+      // zoom: 1;
       display: grid;
-      // grid-template-columns: repeat(8, 1fr);
-      // grid-template-rows: repeat(8, 1fr);
+      position: relative;
       grid-template-columns: repeat(8, 32px);
       grid-template-rows: repeat(8, 32px);
       justify-items: center;
+
+      .sprite {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        animation: play 0.4s steps(2) infinite;
+        transform-origin: top left;
+        transform: scale(0.3);
+      }
+      @keyframes play {
+        100% {
+          background-position: -200px;
+        }
+      }
       li {
         list-style: none;
+        border: 1px solid black;
       }
     }
+  }
+}
+
+@media (max-width: 1500) {
+  #root .grid ul {
+    zoom: 3;
   }
 }
 
