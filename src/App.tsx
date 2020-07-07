@@ -4,11 +4,18 @@ import { v4 as uuid } from 'uuid';
 import './style.scss';
 
 import hexTiles from './borderless.png';
+
 import archer from './sprites/archer.png';
 import archerLeft from './sprites/archerLeft.png';
+
 import assassin from './sprites/assassin.png';
+import assassinLeft from './sprites/assassinLeft.png';
+
 import brute from './sprites/brute.png';
+import bruteLeft from './sprites/bruteLeft.png';
+
 import spearman from './sprites/spearman.png';
+import spearmanLeft from './sprites/spearmanLeft.png';
 
 // prettier-ignore
 const grid = [
@@ -35,10 +42,9 @@ const Sprite = (img: any, c: number, r: number, isPlayer?: boolean) => {
   let yLocation = c * 16 - 24 + 16;
   let translateInfo = 'scaleX(1)';
 
-  if (isPlayer === true) {
-    // do something, change translation to left
-    translateInfo = 'scaleX(-1)';
-  }
+  // if (isPlayer === true) {
+  //   // translateInfo = 'scaleX(-1)';
+  // }
 
   // if is odd
   if (c % 2 === 0) {
@@ -67,8 +73,10 @@ const Sprite = (img: any, c: number, r: number, isPlayer?: boolean) => {
 const createPlayerArmy = (numberOfSoldiers: number) => {
   return (
     <>
+      {Sprite(assassinLeft, 2, 2)}
       {Sprite(archerLeft, 4, 2, true)}
-      {Sprite(brute, 6, 2, true)}
+      {Sprite(bruteLeft, 6, 2, true)}
+      {Sprite(spearmanLeft, 8, 2)}
     </>
   );
 };
@@ -76,8 +84,10 @@ const createPlayerArmy = (numberOfSoldiers: number) => {
 const createEnemyArmy = (numberOfSoldiers: number) => {
   return (
     <>
-      {Sprite(archer, 4, 5)}
-      {Sprite(brute, 6, 5)}
+      {Sprite(assassin, 2, 5)}
+      {Sprite(archer, 4, 5, true)}
+      {Sprite(brute, 6, 5, true)}
+      {Sprite(spearman, 8, 5)}
     </>
   );
 };
