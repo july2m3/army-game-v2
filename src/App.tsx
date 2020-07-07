@@ -37,7 +37,15 @@ const grid = [
   0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
+// let soldier
+interface SoldierSprites {
+  image: any;
+  row: number;
+  col: number;
+}
+
 const Sprite = (img: any, c: number, r: number) => {
+  console.log(`here with ${img} ${c}, ${r}`);
   let xLocation = r * 48 + 16 + 8;
   let yLocation = c * 16 - 24 + 16;
 
@@ -49,6 +57,7 @@ const Sprite = (img: any, c: number, r: number) => {
   return (
     <>
       <div
+        key={uuid()}
         className="sprite"
         style={{
           background: `url(${img}) left center`,
@@ -83,7 +92,18 @@ const createEnemyArmy = (numberOfSoldiers: number) => {
   );
 };
 
+// for each sodlier show soldiers
+const showSoldiers = (soldiers: Array<SoldierSprites>) => {
+  soldiers.map((soldier) => {
+    return Sprite(soldier.image, soldier.row, soldier.col);
+  });
+};
+
 const App = () => {
+  const [playerSoldiers, updatePlayerSoldiers] = React.useState([
+    { image: 'null', row: 2, column: 2 },
+  ]);
+  const [enemySoldiers, updateEnemySoldiers] = React.useState({});
   const width = 8;
   const height = 16;
   let items = new Array(width * height).fill(1).map((i) => {
@@ -94,7 +114,7 @@ const App = () => {
   });
 
   // if row is odd, move it to the side, give it class of odd
-  const listOfItems = items.map((i, index) => {
+  const gridItems = items.map((i, index) => {
     const positionX = grid[index] % 8;
     const positionY = Math.floor(grid[index] / 8);
     const x = positionX * 32;
@@ -120,24 +140,60 @@ const App = () => {
     );
   });
 
-  return (
-    <div className="container">
-      <div className="grid">
-        <ul>
-          {listOfItems}
-          {createPlayerArmy(2)}
-          {createEnemyArmy(2)}
+  React.useEffect(() => {
+    let soldiers: Array<any> = [];
+    soldiers = [...soldiers, { image: assassinLeft, column: 4, row: 2 }];
+    soldiers = [...soldiers, { image: archerLeft, column: 2, row: 2 }];
+    // soldiers = [...soldiers, { image: assassinLeft, row: 2, column: 2 }];
+    updatePlayerSoldiers(soldiers);
+  }, []);
 
-          {/* for testing */}
-          {/* {Sprite(archer, 12, 5)}
-          {Sprite(archer, 1, 0)}
-          {Sprite(brute, 1, 1)}
-          {Sprite(assassin, 3, 4)}
-          {Sprite(spearman, 4, 4)} */}
-        </ul>
+  const PlayerArmy = () => {
+    if (playerSoldiers.length < 2) return;
+    console.log(playerSoldiers);
+    // const info = playerSoldiers.map((soldier) => {
+    //   Sprite(soldier.image, soldier.column, soldier.row);
+    // });
+    // console.log(info);
+
+    return (
+      <>
+        {playerSoldiers.map((soldier) =>
+          Sprite(soldier.image, soldier.column, soldier.row),
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <div className="container">
+        <div className="grid">
+          <ul>
+            {gridItems}
+            {PlayerArmy()}
+            {/* {createPlayerArmy(2)} */}
+            {/* {createEnemyArmy(2)} */}
+          </ul>
+        </div>
+        <img
+          src={hexTiles}
+          alt="loading hex tiles"
+          style={{ display: 'none' }}
+        />
       </div>
-      <img src={hexTiles} alt="loading hex tiles" style={{ display: 'none' }} />
-    </div>
+      <button
+        className="hugeButton"
+        onClick={() => {
+          console.log('updating soldiers');
+          const currentSoldiers = [...playerSoldiers];
+          currentSoldiers.map((soldiers) => (soldiers.row = soldiers.row + 1));
+          updatePlayerSoldiers([...currentSoldiers]);
+        }}
+      >
+        March forward
+      </button>
+    </>
   );
 };
 

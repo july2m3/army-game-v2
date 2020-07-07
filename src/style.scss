@@ -67,6 +67,14 @@
     }
   }
 }
+.hugeButton {
+  padding: 20px;
+  font-size: 2rem;
+  bottom: 60px;
+  border-radius: 10px;
+  border: 4px solid blue;
+  position: absolute;
+}
 
 @media (max-width: 1500) {
   #root .grid ul {
