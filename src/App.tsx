@@ -37,29 +37,20 @@ const grid = [
   0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
-const Sprite = (img: any, c: number, r: number, isPlayer?: boolean) => {
+const Sprite = (img: any, c: number, r: number) => {
   let xLocation = r * 48 + 16 + 8;
   let yLocation = c * 16 - 24 + 16;
-  let translateInfo = 'scaleX(1)';
-
-  // if (isPlayer === true) {
-  //   // translateInfo = 'scaleX(-1)';
-  // }
 
   // if is odd
   if (c % 2 === 0) {
     xLocation -= 24;
   }
 
-  console.log(xLocation, yLocation);
-
   return (
     <>
       <div
         className="sprite"
         style={{
-          zIndex: 1,
-          // transform: translateInfo,
           background: `url(${img}) left center`,
           left: `${xLocation}px`,
           top: `${yLocation}px`,
@@ -74,8 +65,8 @@ const createPlayerArmy = (numberOfSoldiers: number) => {
   return (
     <>
       {Sprite(assassinLeft, 2, 2)}
-      {Sprite(archerLeft, 4, 2, true)}
-      {Sprite(bruteLeft, 6, 2, true)}
+      {Sprite(archerLeft, 4, 2)}
+      {Sprite(bruteLeft, 6, 2)}
       {Sprite(spearmanLeft, 8, 2)}
     </>
   );
@@ -85,8 +76,8 @@ const createEnemyArmy = (numberOfSoldiers: number) => {
   return (
     <>
       {Sprite(assassin, 2, 5)}
-      {Sprite(archer, 4, 5, true)}
-      {Sprite(brute, 6, 5, true)}
+      {Sprite(archer, 4, 5)}
+      {Sprite(brute, 6, 5)}
       {Sprite(spearman, 8, 5)}
     </>
   );
@@ -102,8 +93,7 @@ const App = () => {
     };
   });
 
-  // backgroundPositionY: '-16px',
-  // if row is odd, move the fuck to the side, give it class of odd
+  // if row is odd, move it to the side, give it class of odd
   const listOfItems = items.map((i, index) => {
     const positionX = grid[index] % 8;
     const positionY = Math.floor(grid[index] / 8);
@@ -112,7 +102,6 @@ const App = () => {
 
     const currentColumn = Math.floor(index / width);
     const currentRow = Math.floor(index % 8);
-    console.log(currentColumn, currentRow);
     const itemClass = Math.floor(index / width) % 2 === 0 ? 'even' : 'odd';
 
     return (
