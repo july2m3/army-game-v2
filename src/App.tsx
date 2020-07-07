@@ -5,6 +5,7 @@ import './style.scss';
 
 import hexTiles from './borderless.png';
 import archer from './sprites/archer.png';
+import archerLeft from './sprites/archerLeft.png';
 import assassin from './sprites/assassin.png';
 import brute from './sprites/brute.png';
 import spearman from './sprites/spearman.png';
@@ -29,9 +30,15 @@ const grid = [
   0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
-const Sprite = (img: any, c: number, r: number) => {
+const Sprite = (img: any, c: number, r: number, isPlayer?: boolean) => {
   let xLocation = r * 48 + 16 + 8;
   let yLocation = c * 16 - 24 + 16;
+  let translateInfo = 'scaleX(1)';
+
+  if (isPlayer === true) {
+    // do something, change translation to left
+    translateInfo = 'scaleX(-1)';
+  }
 
   // if is odd
   if (c % 2 === 0) {
@@ -46,11 +53,31 @@ const Sprite = (img: any, c: number, r: number) => {
         className="sprite"
         style={{
           zIndex: 1,
+          // transform: translateInfo,
           background: `url(${img}) left center`,
           left: `${xLocation}px`,
           top: `${yLocation}px`,
         }}
       />
+    </>
+  );
+};
+
+// given a number, return those amount od soldiers
+const createPlayerArmy = (numberOfSoldiers: number) => {
+  return (
+    <>
+      {Sprite(archerLeft, 4, 2, true)}
+      {Sprite(brute, 6, 2, true)}
+    </>
+  );
+};
+
+const createEnemyArmy = (numberOfSoldiers: number) => {
+  return (
+    <>
+      {Sprite(archer, 4, 5)}
+      {Sprite(brute, 6, 5)}
     </>
   );
 };
@@ -99,11 +126,15 @@ const App = () => {
       <div className="grid">
         <ul>
           {listOfItems}
-          {Sprite(archer, 12, 5)}
+          {createPlayerArmy(2)}
+          {createEnemyArmy(2)}
+
+          {/* for testing */}
+          {/* {Sprite(archer, 12, 5)}
           {Sprite(archer, 1, 0)}
           {Sprite(brute, 1, 1)}
           {Sprite(assassin, 3, 4)}
-          {Sprite(spearman, 4, 4)}
+          {Sprite(spearman, 4, 4)} */}
         </ul>
       </div>
       <img src={hexTiles} alt="loading hex tiles" style={{ display: 'none' }} />
