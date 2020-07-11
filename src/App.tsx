@@ -1,19 +1,17 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 
+import Sprite from './components/Sprite';
+
 import './style.scss';
 
 import hexTiles from './borderless.png';
-
 import archer from './sprites/archer.png';
 import archerLeft from './sprites/archerLeft.png';
-
 import assassin from './sprites/assassin.png';
 import assassinLeft from './sprites/assassinLeft.png';
-
 import brute from './sprites/brute.png';
 import bruteLeft from './sprites/bruteLeft.png';
-
 import spearman from './sprites/spearman.png';
 import spearmanLeft from './sprites/spearmanLeft.png';
 
@@ -43,31 +41,6 @@ interface SoldierSprites {
   row: number;
   col: number;
 }
-
-const Sprite = (img: any, c: number, r: number) => {
-  console.log(`here with ${img} ${c}, ${r}`);
-  let xLocation = r * 48 + 16 + 8;
-  let yLocation = c * 16 - 24 + 16;
-
-  // if is odd
-  if (c % 2 === 0) {
-    xLocation -= 24;
-  }
-
-  return (
-    <>
-      <div
-        key={uuid()}
-        className="sprite"
-        style={{
-          background: `url(${img}) left center`,
-          left: `${xLocation}px`,
-          top: `${yLocation}px`,
-        }}
-      />
-    </>
-  );
-};
 
 // given a number, return those amount od soldiers
 const createPlayerArmy = (numberOfSoldiers: number) => {
@@ -151,10 +124,6 @@ const App = () => {
   const PlayerArmy = () => {
     if (playerSoldiers.length < 2) return;
     console.log(playerSoldiers);
-    // const info = playerSoldiers.map((soldier) => {
-    //   Sprite(soldier.image, soldier.column, soldier.row);
-    // });
-    // console.log(info);
 
     return (
       <>
@@ -196,8 +165,6 @@ const App = () => {
           <ul>
             {gridItems}
             {PlayerArmy()}
-            {/* {createPlayerArmy(2)} */}
-            {/* {createEnemyArmy(2)} */}
           </ul>
         </div>
         <img
