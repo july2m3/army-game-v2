@@ -165,6 +165,30 @@ const App = () => {
     );
   };
 
+  const soldiersMarch = () => {
+    console.log('updating soldiers');
+    const currentSoldiers = [...playerSoldiers];
+
+    currentSoldiers.map((soldier) => {
+      console.log(soldier);
+      if (soldier.column % 2 === 0) {
+        soldier.column = soldier.column + 1;
+        if (soldier.column > width) {
+          soldier.row = 0;
+        }
+      } else {
+        // return (soldier.row = soldier.row + 1; soldier.column);
+        soldier.column = soldier.column - 1;
+        soldier.row = soldier.row + 1;
+        if (soldier.row >= width) {
+          soldier.row = 0;
+        }
+      }
+      return soldier;
+    });
+    updatePlayerSoldiers([...currentSoldiers]);
+  };
+
   return (
     <>
       <div className="container">
@@ -185,10 +209,7 @@ const App = () => {
       <button
         className="hugeButton"
         onClick={() => {
-          console.log('updating soldiers');
-          const currentSoldiers = [...playerSoldiers];
-          currentSoldiers.map((soldiers) => (soldiers.row = soldiers.row + 1));
-          updatePlayerSoldiers([...currentSoldiers]);
+          soldiersMarch();
         }}
       >
         March forward
