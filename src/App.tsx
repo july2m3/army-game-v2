@@ -1,39 +1,15 @@
-import React from 'react';
-import { v4 as uuid } from 'uuid';
+import React from "react";
+import { v4 as uuid } from "uuid";
 
-import Sprite from './components/Sprite';
+import Sprite from "./components/Sprite";
+import {
+  sprites,
+  grid,
+  gridHeight,
+  gridWidth,
+} from "./components/GameFunctions";
 
-import './style.scss';
-
-import hexTiles from './borderless.png';
-import archer from './sprites/archer.png';
-import archerLeft from './sprites/archerLeft.png';
-import assassin from './sprites/assassin.png';
-import assassinLeft from './sprites/assassinLeft.png';
-import brute from './sprites/brute.png';
-import bruteLeft from './sprites/bruteLeft.png';
-import spearman from './sprites/spearman.png';
-import spearmanLeft from './sprites/spearmanLeft.png';
-
-// prettier-ignore
-const grid = [
-  0, 0, 0, 0, 0, 0, 0, 0,
-  8, 1, 1, 1, 1, 1, 1, 1,
-  4, 3, 3, 3, 3, 3, 3, 3,
-  5, 5, 5, 1, 1, 1, 1, 1,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  8, 1, 1, 1, 1, 1, 1, 1,
-  4, 3, 3, 3, 3, 3, 3, 3,
-  5, 5, 5, 1, 1, 1, 1, 1,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0,
-];
+import "./style.scss";
 
 // let soldier
 interface SoldierSprites {
@@ -42,44 +18,13 @@ interface SoldierSprites {
   col: number;
 }
 
-// given a number, return those amount od soldiers
-const createPlayerArmy = (numberOfSoldiers: number) => {
-  return (
-    <>
-      {Sprite(assassinLeft, 2, 2)}
-      {Sprite(archerLeft, 4, 2)}
-      {Sprite(bruteLeft, 6, 2)}
-      {Sprite(spearmanLeft, 8, 2)}
-    </>
-  );
-};
-
-const createEnemyArmy = (numberOfSoldiers: number) => {
-  return (
-    <>
-      {Sprite(assassin, 2, 5)}
-      {Sprite(archer, 4, 5)}
-      {Sprite(brute, 6, 5)}
-      {Sprite(spearman, 8, 5)}
-    </>
-  );
-};
-
-// for each sodlier show soldiers
-const showSoldiers = (soldiers: Array<SoldierSprites>) => {
-  soldiers.map((soldier) => {
-    return Sprite(soldier.image, soldier.row, soldier.col);
-  });
-};
-
 const App = () => {
   const [playerSoldiers, updatePlayerSoldiers] = React.useState([
-    { image: 'null', row: 2, column: 2 },
+    { image: "null", row: 2, column: 2 },
   ]);
-  const [enemySoldiers, updateEnemySoldiers] = React.useState({});
-  const width = 8;
-  const height = 16;
-  let items = new Array(width * height).fill(1).map((i) => {
+  // const [enemySoldiers, updateEnemySoldiers] = React.useState({});
+
+  let items = new Array(gridWidth * gridHeight).fill(1).map((i) => {
     return {
       x: Math.floor(Math.random() * 7),
       y: Math.floor(Math.random() * 4),
@@ -93,19 +38,19 @@ const App = () => {
     const x = positionX * 32;
     const y = positionY * 32 + (positionY * 16 + 16);
 
-    const currentColumn = Math.floor(index / width);
+    const currentColumn = Math.floor(index / gridWidth);
     const currentRow = Math.floor(index % 8);
-    const itemClass = Math.floor(index / width) % 2 === 0 ? 'even' : 'odd';
+    const itemClass = Math.floor(index / gridWidth) % 2 === 0 ? "even" : "odd";
 
     return (
       <li
         className={`${itemClass}`}
         key={uuid()}
         style={{
-          background: `url(${hexTiles}) no-repeat`,
+          background: `url(${sprites.grid}) no-repeat`,
           backgroundPosition: `-${x}px -${y}px`,
-          width: '32px',
-          height: '32px',
+          width: "32px",
+          height: "32px",
         }}
       >
         {currentColumn}, {currentRow}
@@ -115,9 +60,14 @@ const App = () => {
 
   React.useEffect(() => {
     let soldiers: Array<any> = [];
-    soldiers = [...soldiers, { image: assassinLeft, column: 4, row: 2 }];
-    soldiers = [...soldiers, { image: archerLeft, column: 2, row: 2 }];
-    // soldiers = [...soldiers, { image: assassinLeft, row: 2, column: 2 }];
+    soldiers = [
+      ...soldiers,
+      { image: sprites.assassinPlayer, column: 4, row: 2 },
+    ];
+    soldiers = [
+      ...soldiers,
+      { image: sprites.archerPlayer, column: 2, row: 2 },
+    ];
     updatePlayerSoldiers(soldiers);
   }, []);
 
@@ -134,22 +84,26 @@ const App = () => {
     );
   };
 
+  const enemyArmy = () => {
+    console.log("enemy army");
+  };
+
   const soldiersMarch = () => {
-    console.log('updating soldiers');
+    console.log("updating soldiers");
     const currentSoldiers = [...playerSoldiers];
 
     currentSoldiers.map((soldier) => {
       console.log(soldier);
       if (soldier.column % 2 === 0) {
         soldier.column = soldier.column + 1;
-        if (soldier.column > width) {
+        if (soldier.column > gridWidth) {
           soldier.row = 0;
         }
       } else {
         // return (soldier.row = soldier.row + 1; soldier.column);
         soldier.column = soldier.column - 1;
         soldier.row = soldier.row + 1;
-        if (soldier.row >= width) {
+        if (soldier.row >= gridWidth) {
           soldier.row = 0;
         }
       }
@@ -165,22 +119,25 @@ const App = () => {
           <ul>
             {gridItems}
             {PlayerArmy()}
+            {enemyArmy()}
           </ul>
         </div>
         <img
-          src={hexTiles}
+          src={sprites.grid}
           alt="loading hex tiles"
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
         />
       </div>
       <button
-        className="hugeButton"
+        className="player-button"
         onClick={() => {
           soldiersMarch();
         }}
       >
-        March forward
+        March Forward
       </button>
+
+      <button className="enemy-button">Enemy Forward</button>
     </>
   );
 };

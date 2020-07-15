@@ -67,13 +67,22 @@
     }
   }
 }
-.hugeButton {
+.player-button,
+.enemy-button {
   padding: 20px;
   font-size: 2rem;
   bottom: 60px;
   border-radius: 10px;
   border: 4px solid blue;
   position: absolute;
+}
+
+.player-button {
+  left: 40px;
+}
+
+.enemy-button {
+  right: 40px;
 }
 
 @media (max-width: 1500) {
