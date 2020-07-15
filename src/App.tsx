@@ -10,6 +10,7 @@ import {
 } from "./components/GameFunctions";
 
 import "./style.scss";
+import GridItems from "./components/GridItems";
 
 // let soldier
 interface SoldierSprites {
@@ -23,40 +24,6 @@ const App = () => {
     { image: "null", row: 2, column: 2 },
   ]);
   // const [enemySoldiers, updateEnemySoldiers] = React.useState({});
-
-  let items = new Array(gridWidth * gridHeight).fill(1).map((i) => {
-    return {
-      x: Math.floor(Math.random() * 7),
-      y: Math.floor(Math.random() * 4),
-    };
-  });
-
-  // if row is odd, move it to the side, give it class of odd
-  const gridItems = items.map((i, index) => {
-    const positionX = grid[index] % 8;
-    const positionY = Math.floor(grid[index] / 8);
-    const x = positionX * 32;
-    const y = positionY * 32 + (positionY * 16 + 16);
-
-    const currentColumn = Math.floor(index / gridWidth);
-    const currentRow = Math.floor(index % 8);
-    const itemClass = Math.floor(index / gridWidth) % 2 === 0 ? "even" : "odd";
-
-    return (
-      <li
-        className={`${itemClass}`}
-        key={uuid()}
-        style={{
-          background: `url(${sprites.grid}) no-repeat`,
-          backgroundPosition: `-${x}px -${y}px`,
-          width: "32px",
-          height: "32px",
-        }}
-      >
-        {currentColumn}, {currentRow}
-      </li>
-    );
-  });
 
   React.useEffect(() => {
     let soldiers: Array<any> = [];
@@ -89,18 +56,15 @@ const App = () => {
   };
 
   const soldiersMarch = () => {
-    console.log("updating soldiers");
     const currentSoldiers = [...playerSoldiers];
 
     currentSoldiers.map((soldier) => {
-      console.log(soldier);
       if (soldier.column % 2 === 0) {
         soldier.column = soldier.column + 1;
         if (soldier.column > gridWidth) {
           soldier.row = 0;
         }
       } else {
-        // return (soldier.row = soldier.row + 1; soldier.column);
         soldier.column = soldier.column - 1;
         soldier.row = soldier.row + 1;
         if (soldier.row >= gridWidth) {
@@ -117,7 +81,7 @@ const App = () => {
       <div className="container">
         <div className="grid">
           <ul>
-            {gridItems}
+            <GridItems />
             {PlayerArmy()}
             {enemyArmy()}
           </ul>
