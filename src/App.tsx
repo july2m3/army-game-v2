@@ -23,24 +23,28 @@ const App = () => {
   const [playerSoldiers, updatePlayerSoldiers] = React.useState([
     { image: "null", row: 2, column: 2 },
   ]);
-  // const [enemySoldiers, updateEnemySoldiers] = React.useState({});
+  const [enemySoldiers, updateEnemySoldiers] = React.useState([
+    { image: "null", row: 2, column: 2 },
+  ]);
 
   React.useEffect(() => {
-    let soldiers: Array<any> = [];
-    soldiers = [
-      ...soldiers,
+    let playerSoldiers: Array<any> = [];
+    let enemySoldiers: Array<any> = [];
+    playerSoldiers = [
       { image: sprites.assassinPlayer, column: 4, row: 2 },
-    ];
-    soldiers = [
-      ...soldiers,
       { image: sprites.archerPlayer, column: 2, row: 2 },
     ];
-    updatePlayerSoldiers(soldiers);
+    enemySoldiers = [
+      { image: sprites.assassinEnemy, column: 2, row: 6 },
+      { image: sprites.archerEnemy, column: 4, row: 6 },
+    ];
+
+    updatePlayerSoldiers(playerSoldiers);
+    updateEnemySoldiers(enemySoldiers);
   }, []);
 
-  const PlayerArmy = () => {
+  const playerArmy = () => {
     if (playerSoldiers.length < 2) return;
-    console.log(playerSoldiers);
 
     return (
       <>
@@ -52,28 +56,47 @@ const App = () => {
   };
 
   const enemyArmy = () => {
-    console.log("enemy army");
+    if (enemySoldiers.length < 2) return;
+    return (
+      <>
+        {enemySoldiers.map((soldier) =>
+          Sprite(soldier.image, soldier.column, soldier.row),
+        )}
+      </>
+    );
   };
 
-  const soldiersMarch = () => {
-    const currentSoldiers = [...playerSoldiers];
-
-    currentSoldiers.map((soldier) => {
-      if (soldier.column % 2 === 0) {
-        soldier.column = soldier.column + 1;
-        if (soldier.column > gridWidth) {
-          soldier.row = 0;
+  const soldiersMarch = (isPlayer = true) => {
+    const currentSoldiers = isPlayer ? [...playerSoldiers] : [...enemySoldiers];
+    if (isPlayer) {
+      currentSoldiers.map((soldier) => {
+        if (soldier.column % 2 === 0) {
+          console.log(soldier.column);
+          soldier.column = soldier.column + 1;
+          if (soldier.column > gridWidth) {
+            soldier.row = 0;
+          }
+        } else {
+          soldier.column = soldier.column - 1;
+          soldier.row = soldier.row + 1;
+          if (soldier.row >= gridWidth) {
+            soldier.row = 0;
+          }
         }
-      } else {
-        soldier.column = soldier.column - 1;
-        soldier.row = soldier.row + 1;
-        if (soldier.row >= gridWidth) {
-          soldier.row = 0;
+        return soldier;
+      });
+      updatePlayerSoldiers([...currentSoldiers]);
+    } else {
+      currentSoldiers.map((soldier) => {
+        if (soldier.column % 2 === 0) {
+          soldier.column = soldier.column + 1;
+          soldier.row = soldier.row - 1;
+        } else {
+          soldier.column = soldier.column - 1;
         }
-      }
-      return soldier;
-    });
-    updatePlayerSoldiers([...currentSoldiers]);
+      });
+      updateEnemySoldiers([...currentSoldiers]);
+    }
   };
 
   return (
@@ -82,7 +105,7 @@ const App = () => {
         <div className="grid">
           <ul>
             <GridItems />
-            {PlayerArmy()}
+            {playerArmy()}
             {enemyArmy()}
           </ul>
         </div>
@@ -101,7 +124,14 @@ const App = () => {
         March Forward
       </button>
 
-      <button className="enemy-button">Enemy Forward</button>
+      <button
+        className="enemy-button"
+        onClick={() => {
+          soldiersMarch(false);
+        }}
+      >
+        Enemy Forward
+      </button>
     </>
   );
 };
