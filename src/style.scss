@@ -45,7 +45,19 @@
         animation: play 0.4s steps(2) infinite;
         transform-origin: top left;
         transform: scale(0.3);
+
+        // border-bottom: 10px solid blue;
+        padding-bottom: 100px;
+        border-radius: 50%;
       }
+
+      .sprite-player {
+        border-bottom: 10px solid blue;
+      }
+      .sprite-enemy {
+        border-bottom: 10px solid red;
+      }
+
       @keyframes play {
         100% {
           background-position: -200px;

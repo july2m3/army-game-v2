@@ -49,7 +49,7 @@ const App = () => {
     return (
       <>
         {playerSoldiers.map((soldier) =>
-          Sprite(soldier.image, soldier.column, soldier.row),
+          Sprite(soldier.image, soldier.column, soldier.row, true),
         )}
       </>
     );
@@ -60,7 +60,7 @@ const App = () => {
     return (
       <>
         {enemySoldiers.map((soldier) =>
-          Sprite(soldier.image, soldier.column, soldier.row),
+          Sprite(soldier.image, soldier.column, soldier.row, false),
         )}
       </>
     );
@@ -130,7 +130,7 @@ const App = () => {
           soldiersMarch(false);
         }}
       >
-        Enemy Forward
+        Enemy Forward k{" "}
       </button>
     </>
   );
