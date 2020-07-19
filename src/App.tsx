@@ -130,7 +130,7 @@ const App = () => {
           soldiersMarch(false);
         }}
       >
-        Enemy Forward k{" "}
+        Enemy Forward
       </button>
     </>
   );
