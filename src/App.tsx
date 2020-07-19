@@ -66,21 +66,38 @@ const App = () => {
     );
   };
 
+  // make sure next move is available
+  const isSpaceNotOccupied = (column: number, row: number) => {
+    let isOccupied = false;
+
+    playerSoldiers.forEach((soldier) => {
+      if (soldier.column === column && soldier.row === row) isOccupied = true;
+    });
+    enemySoldiers.forEach((soldier) => {
+      if (soldier.column === column && soldier.row === row) isOccupied = true;
+    });
+
+    return !isOccupied;
+  };
+
   const soldiersMarch = (isPlayer = true) => {
     const currentSoldiers = isPlayer ? [...playerSoldiers] : [...enemySoldiers];
     if (isPlayer) {
       currentSoldiers.map((soldier) => {
         if (soldier.column % 2 === 0) {
-          console.log(soldier.column);
-          soldier.column = soldier.column + 1;
-          if (soldier.column > gridWidth) {
-            soldier.row = 0;
+          if (isSpaceNotOccupied(soldier.column + 1, soldier.row)) {
+            soldier.column = soldier.column + 1;
+            if (soldier.column > gridWidth) {
+              soldier.row = 0;
+            }
           }
         } else {
-          soldier.column = soldier.column - 1;
-          soldier.row = soldier.row + 1;
-          if (soldier.row >= gridWidth) {
-            soldier.row = 0;
+          if (isSpaceNotOccupied(soldier.column - 1, soldier.row + 1)) {
+            soldier.column = soldier.column - 1;
+            soldier.row = soldier.row + 1;
+            if (soldier.row >= gridWidth) {
+              soldier.row = 0;
+            }
           }
         }
         return soldier;
@@ -89,10 +106,14 @@ const App = () => {
     } else {
       currentSoldiers.map((soldier) => {
         if (soldier.column % 2 === 0) {
-          soldier.column = soldier.column + 1;
-          soldier.row = soldier.row - 1;
+          if (isSpaceNotOccupied(soldier.column + 1, soldier.row - 1)) {
+            soldier.column = soldier.column + 1;
+            soldier.row = soldier.row - 1;
+          }
         } else {
-          soldier.column = soldier.column - 1;
+          if (isSpaceNotOccupied(soldier.column - 1, soldier.row)) {
+            soldier.column = soldier.column - 1;
+          }
         }
       });
       updateEnemySoldiers([...currentSoldiers]);
