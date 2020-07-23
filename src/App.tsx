@@ -1,16 +1,12 @@
-import React from "react";
-import { v4 as uuid } from "uuid";
+import React from 'react';
+import { v4 as uuid } from 'uuid';
 
-import Sprite from "./components/Sprite";
-import {
-  sprites,
-  grid,
-  gridHeight,
-  gridWidth,
-} from "./components/GameFunctions";
+import Sprite from './components/Sprite';
+import { sprites, gridWidth } from './components/GameFunctions';
 
-import "./style.scss";
-import GridItems from "./components/GridItems";
+import './style.scss';
+import GridItems from './components/GridItems';
+import soldierInfoFromFile from './soldier-info.json';
 
 // let soldier
 interface SoldierSprites {
@@ -21,11 +17,12 @@ interface SoldierSprites {
 
 const App = () => {
   const [playerSoldiers, updatePlayerSoldiers] = React.useState([
-    { image: "null", row: 2, column: 2 },
+    { image: 'null', row: 2, column: 2 },
   ]);
   const [enemySoldiers, updateEnemySoldiers] = React.useState([
-    { image: "null", row: 2, column: 2 },
+    { image: 'null', row: 2, column: 2 },
   ]);
+  const [soldierInfo, setSoldierInfo] = React.useState({});
 
   React.useEffect(() => {
     let playerSoldiers: Array<any> = [];
@@ -38,6 +35,9 @@ const App = () => {
       { image: sprites.assassinEnemy, column: 2, row: 6 },
       { image: sprites.archerEnemy, column: 4, row: 6 },
     ];
+
+    const { soldiers } = soldierInfoFromFile;
+    setSoldierInfo(soldiers);
 
     updatePlayerSoldiers(playerSoldiers);
     updateEnemySoldiers(enemySoldiers);
@@ -133,7 +133,7 @@ const App = () => {
         <img
           src={sprites.grid}
           alt="loading hex tiles"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
         />
       </div>
       <button

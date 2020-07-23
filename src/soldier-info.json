@@ -1,0 +1,93 @@
+{
+  "soldiers": [
+    {
+      "name": "Brute",
+      "accuracy": 60,
+      "attack": 19,
+      "attackRange": 1,
+      "cost": 45,
+      "hp": 45,
+      "numberOfAttacks": 2,
+      "movement": 1
+    },
+    {
+      "name": "Heavy Infantry",
+      "accuracy": 80,
+      "attack": 10,
+      "attackRange": 1,
+      "cost": 20,
+      "hp": 30,
+      "numberOfAttacks": 2,
+      "movement": 3
+    },
+    {
+      "name": "Knight",
+      "accuracy": 70,
+      "attack": 16,
+      "attackRange": 1,
+      "cost": 35,
+      "hp": 35,
+      "numberOfAttacks": 2,
+      "movement": 2
+    },
+    {
+      "name": "Light Infantry",
+      "accuracy": 80,
+      "attack": 8,
+      "attackRange": 1,
+      "cost": 15,
+      "hp": 20,
+      "numberOfAttacks": 2,
+      "movement": 4
+    },
+    {
+      "name": "Pikeman",
+      "accuracy": 70,
+      "attack": 13,
+      "attackRange": 2,
+      "cost": 25,
+      "hp": 25,
+      "numberOfAttacks": 2,
+      "movement": 3
+    },
+    {
+      "name": "Scout",
+      "accuracy": 75,
+      "attack": 6,
+      "attackRange": 1,
+      "cost": 15,
+      "hp": 15,
+      "movement": 5
+    },
+    {
+      "name": "Spearman",
+      "accuracy": 70,
+      "attack": 11,
+      "attackRange": 2,
+      "cost": 20,
+      "hp": 20,
+      "numberOfAttacks": 2,
+      "movement": 4
+    },
+    {
+      "name": "Assassin",
+      "accuracy": 40,
+      "attack": 64,
+      "attackRange": 2,
+      "cost": 20,
+      "hp": 23,
+      "numberOfAttacks": 2,
+      "movement": 4
+    },
+    {
+      "name": "Archer",
+      "accuracy": 70,
+      "attack": 5,
+      "attackRange": 2,
+      "cost": 20,
+      "hp": 21,
+      "numberOfAttacks": 2,
+      "movement": 4
+    }
+  ]
+}
